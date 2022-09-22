@@ -1,4 +1,6 @@
 import 'package:blog_app/firebase_options.dart';
+import 'package:blog_app/src/core/services/firestore_service.dart';
+import 'package:blog_app/src/service_locator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,6 +10,7 @@ class AuthService {
 
   Stream get authStateChanges => firebaseAuth.authStateChanges();
 
+  User? get currentUser => firebaseAuth.currentUser;
   Future<bool> signInWithGoogle(BuildContext context) async {
     bool res = true;
     try {
@@ -28,6 +31,9 @@ class AuthService {
 
       User? user = userCredential.user;
       if (user != null) {
+        if (userCredential.additionalUserInfo!.isNewUser) {
+          serviceLocator<FirestoreService>().addUser(user);
+        }
         res = true;
       }
 
@@ -99,7 +105,6 @@ class AuthService {
     } catch (e) {
       debugPrint(e.toString());
       rethrow;
-      
     }
   }
 
