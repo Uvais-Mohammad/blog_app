@@ -18,14 +18,16 @@ class HomeScreen extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                    model.signOut();
+                    Navigator.pushNamed(context, '/users');
                   },
-                  icon: const Icon(Icons.logout),
+                  icon: const Icon(Icons.people),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/profile');
+                    },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15.0),
                       child: model.userPhotoUrl != null
@@ -42,29 +44,56 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            body: StreamBuilder(
-              stream: model.blogs,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  );
-                }
-                return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: snapshot.data!.docs.length,
-                    shrinkWrap: true,
+            body: ListView(
+              shrinkWrap: true,
+              children: [
+                SizedBox(
+                  height: 80,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: model.categories.length,
                     itemBuilder: (context, index) {
-                      return BlogsTile(
-                        title: snapshot.data!.docs[index].data()['title'],
-                        description:
-                            snapshot.data!.docs[index].data()['description'] ??
-                                '',
-                        imgUrl:
-                            snapshot.data!.docs[index].data()['imgUrl'] ?? 'https://via.placeholder.com/600x400',
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ChoiceChip(
+                          label: Text(model.categories[index]),
+                          selected:
+                              model.selectedCategory == model.categories[index],
+                          onSelected: (selected) {
+                            model.selectedCategory = model.categories[index];
+                          },
+                        ),
                       );
-                    });
-              },
+                    },
+                  ),
+                ),
+                StreamBuilder(
+                  stream: model.filteredBlogs,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    }
+                    return ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: snapshot.data!.docs.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return BlogsTile(
+                            title: snapshot.data!.docs[index].data()['title'],
+                            description:
+                                snapshot.data!.docs[index].data()['content'] ??
+                                    '',
+                            imgUrl:
+                                snapshot.data!.docs[index].data()['image'] ??
+                                    'https://via.placeholder.com/600x400',
+                          );
+                        });
+                  },
+                ),
+              ],
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {

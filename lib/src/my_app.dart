@@ -3,7 +3,9 @@ import 'package:blog_app/src/service_locator.dart';
 import 'package:blog_app/src/ui/views/add_blog_screen.dart';
 import 'package:blog_app/src/ui/views/home_screen.dart';
 import 'package:blog_app/src/ui/views/login_screen.dart';
+import 'package:blog_app/src/ui/views/profile_view.dart';
 import 'package:blog_app/src/ui/views/sign_up_screen.dart';
+import 'package:blog_app/src/ui/views/users_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -22,6 +24,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/signUp': (context) => const SignUpScreen(),
         '/addBlog': (context) => const AddBlogScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        '/users': (context) => const UsersScreen(),
       },
       home: StreamBuilder(
           stream: serviceLocator<AuthService>().authStateChanges,

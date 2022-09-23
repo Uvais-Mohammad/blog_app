@@ -26,6 +26,11 @@ class SignUpScreen extends StatelessWidget {
                       decoration: const InputDecoration(
                         hintText: 'Email',
                       ),
+                    ),TextField(
+                      controller: model.usernameController,
+                      decoration: const InputDecoration(
+                        hintText: 'Username',
+                      ),
                     ),
                     TextField(
                       controller: model.passwordController,
@@ -33,6 +38,7 @@ class SignUpScreen extends StatelessWidget {
                         hintText: 'Password',
                       ),
                     ),
+                    
                     const SizedBox(
                       height: 16.0,
                     ),
@@ -46,8 +52,7 @@ class SignUpScreen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         model
-                            .signUp(model.emailController.text,
-                                model.passwordController.text)
+                            .signUp()
                             .then((value) => {
                                   if (value)
                                     {

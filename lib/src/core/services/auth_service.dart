@@ -1,4 +1,5 @@
 import 'package:blog_app/firebase_options.dart';
+import 'package:blog_app/src/core/models/users.dart' as model;
 import 'package:blog_app/src/core/services/firestore_service.dart';
 import 'package:blog_app/src/service_locator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,7 +33,15 @@ class AuthService {
       User? user = userCredential.user;
       if (user != null) {
         if (userCredential.additionalUserInfo!.isNewUser) {
-          serviceLocator<FirestoreService>().addUser(user);
+          serviceLocator<FirestoreService>().addData(
+              collection: 'users',
+              doc: user.uid,
+              data: model.User(
+                uid: user.uid,
+                email: user.email!,
+                userName: user.displayName,
+                profilePhoto: user.photoURL,
+              ).toMap());
         }
         res = true;
       }
@@ -49,6 +58,7 @@ class AuthService {
   Future<bool> createUserWithEmailAndPassword({
     required String email,
     required String password,
+    required String userName,
   }) async {
     bool res = true;
 
@@ -58,7 +68,19 @@ class AuthService {
         email: email,
         password: password,
       );
-      if (credential.user != null) {
+      User? user = credential.user;
+      if (user != null) {
+        if (credential.additionalUserInfo!.isNewUser) {
+          serviceLocator<FirestoreService>().addData(
+              collection: 'users',
+              doc: user.uid,
+              data: model.User(
+                uid: user.uid,
+                email: email,
+                userName: userName,
+                profilePhoto: user.photoURL,
+              ).toMap());
+        }
         res = true;
       }
       return res;
@@ -85,12 +107,24 @@ class AuthService {
     bool res = true;
 
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      if (credential.user != null) {
-        res = true;
+      User? user = userCredential.user;
+      if (user != null) {
+        if (userCredential.additionalUserInfo!.isNewUser) {
+          serviceLocator<FirestoreService>().addData(
+              collection: 'users',
+              doc: user.uid,
+              data: model.User(
+                uid: user.uid,
+                email: email,
+                userName: user.displayName,
+                profilePhoto: user.photoURL,
+              ).toMap());
+        }
       }
       return res;
     } on FirebaseAuthException catch (e) {

@@ -22,19 +22,7 @@ class LoginViewModel extends BaseViewModel {
     setBusy(false);
   }
 
-  Future signUp(String email, String password) async {
-    setBusy(true);
-    try {
-      var result = await serviceLocator<AuthService>().createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    } catch (e) {
-      errorMessage = e.toString();
-    }
-
-    setBusy(false);
-  }
+  
 
   Future signInWithGoogle(BuildContext context) async {
     setBusy(true);

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,18 +10,19 @@ import 'package:image_picker/image_picker.dart';
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  Future<bool> addBlog(
-      {required String title,
-      required String content,
-      String? image,
-      required String category}) async {
+
+  Future<bool> addBlog({
+    required String title,
+    required String content,
+    String? image,
+    required String category,
+  }) async {
     bool res = true;
-    String? imageUrl;
     try {
       await _firestore.collection('blogs').add({
         'title': title,
         'content': content,
-        'image': imageUrl,
+        'image': image,
         'category': category,
       });
       res = true;
@@ -49,13 +49,12 @@ class FirestoreService {
     }
   }
 
-  Future addUser(User user) async {
+  Future addData(
+      {required String collection,
+      String? doc,
+      required Map<String, dynamic> data}) async {
     try {
-      await _firestore.collection('user').doc(user.uid).set({
-        'username': user.displayName,
-        'uid': user.uid,
-        'profilePhoto': user.photoURL,
-      });
+      await _firestore.collection(collection).doc(doc).set(data);
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -67,7 +66,18 @@ class FirestoreService {
     return base64Url.encode(values);
   }
 
-   Stream<QuerySnapshot<Map>> getBlogs()  {
-    return  _firestore.collection('blogs').snapshots();
+  Stream<QuerySnapshot<Map>> getData(String collection) {
+    return _firestore.collection(collection).snapshots();
+  }
+
+  Stream<QuerySnapshot<Map>> filterData({
+    required String collection,
+    required String category,
+    required String filter,
+  }) {
+    return _firestore
+        .collection(collection)
+        .where(category, isEqualTo: filter)
+        .snapshots();
   }
 }

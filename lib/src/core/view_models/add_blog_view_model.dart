@@ -7,7 +7,11 @@ import 'package:stacked/stacked.dart';
 class BlogViewModel extends ReactiveViewModel {
   @override
   List<ReactiveServiceMixin> get reactiveServices => [];
-
+List<String> categories = [
+    
+    "Sports",
+    "Movies",
+  ];
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
   XFile? selectedImage;

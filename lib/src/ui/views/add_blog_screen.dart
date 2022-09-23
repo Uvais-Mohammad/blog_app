@@ -91,7 +91,7 @@ class AddBlogScreen extends StatelessWidget {
                             TextField(
                               decoration:
                                   const InputDecoration(hintText: "Title"),
-                                  controller: model.titleController,
+                              controller: model.titleController,
                               onChanged: (val) {
                                 // title = val;
                               },
@@ -107,16 +107,12 @@ class AddBlogScreen extends StatelessWidget {
                             //category sports and tech
                             DropdownButtonHideUnderline(
                               child: DropdownButton(
-                                items: const [
-                                  DropdownMenuItem(
-                                    value: "Sports",
-                                    child: Text("Sports"),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: "Tech",
-                                    child: Text("Tech"),
-                                  ),
-                                ],
+                                items: model.categories
+                                    .map((category) => DropdownMenuItem(
+                                          value: category,
+                                          child: Text(category),
+                                        ))
+                                    .toList(),
                                 onChanged: model.onChangedCategory,
                                 hint: const Text("Select Category"),
                                 value: model.category,

@@ -1,5 +1,3 @@
-
-
 import 'package:blog_app/src/core/services/firestore_service.dart';
 import 'package:blog_app/src/service_locator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,10 +16,13 @@ class BlogService {
         imageUrl =
             await serviceLocator<FirestoreService>().addImage(file: image);
       }
-
-      res = await serviceLocator<FirestoreService>().addBlog(
-          title: title, content: content, image: imageUrl, category: category);
-
+      res = await serviceLocator<FirestoreService>()
+          .addData(collection: 'blogs', data: {
+        'title': title,
+        'content': content,
+        'image': imageUrl,
+        'category': category,
+      });
       return res;
     } catch (e) {
       res = false;
@@ -29,7 +30,12 @@ class BlogService {
     }
   }
 
- Stream<QuerySnapshot<Map>> getBlogs()  {
-    return  serviceLocator<FirestoreService>().getBlogs();
+  Stream<QuerySnapshot<Map>> getBlogs() {
+    return serviceLocator<FirestoreService>().getData('blogs');
+  }
+
+  Stream<QuerySnapshot<Map>> getBlogsByCategory(String category) {
+    return serviceLocator<FirestoreService>()
+        .filterData(collection: 'blogs', filter: category,category: 'category');
   }
 }
