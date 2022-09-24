@@ -1,16 +1,19 @@
-# blog_app
+# Blog App
 
-A new Flutter project.
+A simple blog app built with Flutter(3.3.2)💙 & Firebase💛.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Authentication using Google Sign In & Email Sign In
 
-A few resources to get you started if this is your first Flutter project:
+- Uploading blogs with user's data,blog category (Sports/Movies)and images.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Viewing blogs of all users.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Profile section to view user's data.
+
+- Filter blogs by category.
+
+- Search users by email and username.
+
+- Notification using firebase.

@@ -23,6 +23,7 @@ class BlogService {
         'image': imageUrl,
         'category': category,
       });
+
       return res;
     } catch (e) {
       res = false;
@@ -35,7 +36,7 @@ class BlogService {
   }
 
   Stream<QuerySnapshot<Map>> getBlogsByCategory(String category) {
-    return serviceLocator<FirestoreService>()
-        .filterData(collection: 'blogs', filter: category,category: 'category');
+    return serviceLocator<FirestoreService>().filterData(
+        collection: 'blogs', filter: category, category: 'category');
   }
 }

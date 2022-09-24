@@ -6,7 +6,7 @@ import 'package:stacked/stacked.dart';
 class ProfileViewModel extends ReactiveViewModel {
 
   User user = serviceLocator<AuthService>().currentUser!;
-  void signOut() async{
+  Future<void> signOut() async{
     await serviceLocator<AuthService>().signOut();
   }
   @override

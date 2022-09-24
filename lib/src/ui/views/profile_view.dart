@@ -16,8 +16,10 @@ class ProfileScreen extends StatelessWidget {
               title: const Text("Profile"),
               actions: [IconButton(
                   onPressed: () {
-                    model.signOut();
-                    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                    model.signOut().then((value) {
+                      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                    });
+                    
                   },
                   icon: const Icon(Icons.logout),
                 ),],

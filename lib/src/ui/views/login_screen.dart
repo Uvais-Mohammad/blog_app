@@ -18,52 +18,77 @@ class LoginScreen extends StatelessWidget {
             body: Center(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextField(
-                      controller: model.emailController,
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextField(
+                        controller: model.emailController,
+                        decoration: const InputDecoration(
+                          hintText: 'Email',
+                        ),
                       ),
-                    ),
-                    TextField(
-                      controller: model.passwordController,
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
+                      const SizedBox(
+                        height: 16.0,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 16.0,
-                    ),
-                    model.errorMessage != null
-                        ? Text(model.errorMessage!)
-                        : const SizedBox.shrink(),
-                    model.isBusy
-                        ? const CircularProgressIndicator.adaptive()
-                        : const SizedBox.shrink(),
-                    ElevatedButton(
-                      onPressed: () {
-                        model.login(model.emailController.text,
-                            model.passwordController.text);
-                      },
-                      child: const Text('Login'),
-                    ),
-                    const SizedBox(height: 60),
-                    ElevatedButton(
-                      onPressed: () {
-                        model.signInWithGoogle(context);
-                      },
-                      child: const Text('Sign in with Google'),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signUp');
-                      },
-                      child: const Text('Sign up'),
-                    ),
-                  ],
+                      TextField(
+                        controller: model.passwordController,
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                        ),
+                        obscureText: true,
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      model.errorMessage != null
+                          ? Text(model.errorMessage!)
+                          : const SizedBox.shrink(),
+                      model.isBusy
+                          ? const CircularProgressIndicator.adaptive()
+                          : const SizedBox.shrink(),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          model.login(model.emailController.text,
+                              model.passwordController.text);
+                        },
+                        label: const Text('Login'),
+                        icon: const Icon(Icons.login),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Expanded(child: Divider()),
+                            SizedBox(width: 10.0),
+                            Text('OR'),
+                            SizedBox(width: 10.0),
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          model.signInWithGoogle(context);
+                        },
+                        label: const Text('Sign in with Google'),
+                        icon: const Icon(Icons.account_circle),
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/signUp');
+                        },
+                        label: const Text('Sign up'),
+                        icon: const Icon(Icons.account_circle),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

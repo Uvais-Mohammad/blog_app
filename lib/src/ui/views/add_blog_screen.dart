@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:blog_app/src/core/services/blog_service.dart';
 import 'package:blog_app/src/core/view_models/add_blog_view_model.dart';
 import 'package:blog_app/src/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -21,19 +22,7 @@ class AddBlogScreen extends StatelessWidget {
               elevation: 0.0,
               actions: <Widget>[
                 GestureDetector(
-                  onTap: () {
-                    model.addBlog().then((value) {
-                      if (value) {
-                        Navigator.of(context).pop();
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Error"),
-                          ),
-                        );
-                      }
-                    });
-                  },
+                  onTap: () {},
                   child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: const Icon(Icons.file_upload)),
@@ -56,6 +45,15 @@ class AddBlogScreen extends StatelessWidget {
                           },
                           child: model.selectedImage != null
                               ? Container(
+                                  decoration: const BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 6,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 16),
                                   height: 170,
@@ -73,8 +71,16 @@ class AddBlogScreen extends StatelessWidget {
                                       horizontal: 16),
                                   height: 170,
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(6)),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(6),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 6,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
                                   width: MediaQuery.of(context).size.width,
                                   child: const Icon(
                                     Icons.add_a_photo,
@@ -96,6 +102,9 @@ class AddBlogScreen extends StatelessWidget {
                                 // title = val;
                               },
                             ),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             TextField(
                               controller: model.contentController,
                               decoration:
@@ -104,20 +113,55 @@ class AddBlogScreen extends StatelessWidget {
                                 // desc = val;
                               },
                             ),
-                            //category sports and tech
-                            DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                items: model.categories
-                                    .map((category) => DropdownMenuItem(
-                                          value: category,
-                                          child: Text(category),
-                                        ))
-                                    .toList(),
-                                onChanged: model.onChangedCategory,
-                                hint: const Text("Select Category"),
-                                value: model.category,
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              color: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  items: model.categories
+                                      .map((category) => DropdownMenuItem(
+                                            value: category,
+                                            child: Text(category),
+                                          ))
+                                      .toList(),
+                                  onChanged: model.onChangedCategory,
+                                  hint: const Text("Select Category"),
+                                  value: model.category,
+                                ),
                               ),
                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                model.addBlog().then((value) {
+                                  if (value) {
+                                    Navigator.of(context).pop();
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text("Error"),
+                                      ),
+                                    );
+                                  }
+                                });
+                    
+                              },
+                              icon: const Icon(Icons.upload),
+                              label: const Text(
+                                "Upload",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       )
