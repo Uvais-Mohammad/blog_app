@@ -26,19 +26,29 @@ class SignUpScreen extends StatelessWidget {
                       decoration: const InputDecoration(
                         hintText: 'Email',
                       ),
-                    ),TextField(
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    TextField(
                       controller: model.usernameController,
                       decoration: const InputDecoration(
                         hintText: 'Username',
                       ),
+                    ),
+                    const SizedBox(
+                      height: 16.0,
                     ),
                     TextField(
                       controller: model.passwordController,
                       decoration: const InputDecoration(
                         hintText: 'Password',
                       ),
+                      obscureText: true,
                     ),
-                    
+                    const SizedBox(
+                      height: 16.0,
+                    ),
                     const SizedBox(
                       height: 16.0,
                     ),
@@ -51,15 +61,9 @@ class SignUpScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
-                        model
-                            .signUp()
-                            .then((value) => {
-                                  if (value)
-                                    {
-                                      Navigator.pushNamed(context, '/home')
-                                    }
-                                }
-                                );
+                        model.signUp().then((value) => {
+                              if (value) {Navigator.pushNamed(context, '/home')}
+                            });
                       },
                       child: const Text('Sign up'),
                     ),

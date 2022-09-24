@@ -16,14 +16,14 @@ class BlogService {
         imageUrl =
             await serviceLocator<FirestoreService>().addImage(file: image);
       }
-      res = await serviceLocator<FirestoreService>()
+      await serviceLocator<FirestoreService>()
           .addData(collection: 'blogs', data: {
         'title': title,
         'content': content,
         'image': imageUrl,
         'category': category,
       });
-
+      res = true;
       return res;
     } catch (e) {
       res = false;

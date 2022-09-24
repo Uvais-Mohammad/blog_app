@@ -53,8 +53,15 @@ class LoginScreen extends StatelessWidget {
                       ),
                       ElevatedButton.icon(
                         onPressed: () {
-                          model.login(model.emailController.text,
-                              model.passwordController.text);
+                          model
+                              .login(model.emailController.text,
+                                  model.passwordController.text)
+                              .then((value) {
+                            if (value) {
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  '/home', (route) => false);
+                            }
+                              });
                         },
                         label: const Text('Login'),
                         icon: const Icon(Icons.login),
@@ -73,8 +80,12 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton.icon(
-                        onPressed: () {
-                          model.signInWithGoogle(context);
+                        onPressed: () async {
+                          model.signInWithGoogle(context).then((value) {
+                            if (value) {
+                              Navigator.pushNamed(context, '/home');
+                            }
+                          });
                         },
                         label: const Text('Sign in with Google'),
                         icon: const Icon(Icons.account_circle),

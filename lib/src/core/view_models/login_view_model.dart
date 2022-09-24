@@ -4,32 +4,37 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class LoginViewModel extends BaseViewModel {
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String? errorMessage;
   Future login(String email, String password) async {
     setBusy(true);
     try {
-      var result = await serviceLocator<AuthService>().signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+      var result =
+          await serviceLocator<AuthService>().signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      setBusy(false);
+      return result;
     } catch (e) {
       errorMessage = e.toString();
+      setBusy(false);
+      return false;
     }
 
-    setBusy(false);
+    
   }
-
-  
 
   Future signInWithGoogle(BuildContext context) async {
     setBusy(true);
     try {
-      var result = await serviceLocator<AuthService>().signInWithGoogle(context);
+      var result =
+          await serviceLocator<AuthService>().signInWithGoogle(context);
+      return result;
     } catch (e) {
       errorMessage = e.toString();
+      return false;
     }
 
     setBusy(false);
