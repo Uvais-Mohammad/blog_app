@@ -2,6 +2,15 @@
 
 A simple blog app built with Flutter(3.3.2)💙 & Firebase💛.
 
+## Used
+- MVVM architecture.
+- Stacked package for state management(Provider).
+- Firebase Auth for authentication.
+- Firebase Firestore for storing data.
+- Firebase Storage for storing images.
+- GetIt for dependency injection.
+- Firebase Cloud Messaging for push notifications.
+
 ## Features
 
 - Authentication using Google Sign In & Email Sign In
